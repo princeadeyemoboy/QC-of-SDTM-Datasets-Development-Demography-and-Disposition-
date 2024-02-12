@@ -1,0 +1,660 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.03 seconds
+      user cpu time       0.03 seconds
+      system cpu time     0.00 seconds
+      memory              2511.53k
+      OS Memory           26272.00k
+2                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        231  Switch Count  3
+      Page Faults                       0
+      Page Reclaims                     28
+      Page Swaps                        0
+      Voluntary Context Switches        35
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           56
+      
+
+175        Data _dm;
+176        length usubjid $30 DSDECOD $100 DSTERM $200;
+177        set rawdata.dm;
+NOTE: Data file RAWDATA.DM.DATA is in a format that is native to another host, or the file encoding does not match the session 
+      encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+      performance.
+178        USUBJID=(STUDYID||'-'||SITEID||'-'||SUBJID);
+179        If usubjid ne " " then do;
+180        DSTERM='INFORMED CONSENT OBTAINED';
+181        DSDECOD='INFORMED CONSENT OBTAINED';
+182        end;
+183        run;
+
+NOTE: There were 335 observations read from the data set RAWDATA.DM.
+NOTE: The data set WORK._DM has 335 observations and 14 variables.
+NOTE: Compressing data set WORK._DM decreased size by 0.00 percent. 
+      Compressed is 2 pages; un-compressed would require 2 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.01 seconds
+      system cpu time     0.00 seconds
+      memory              1178.96k
+      OS Memory           27044.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        232  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     163
+      Page Swaps                        0
+      Voluntary Context Switches        14
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+184        
+185        *sorting _dm;
+186        proc sort data=_dm out=_dm2;
+187        by usubjid;
+188        run;
+
+NOTE: There were 335 observations read from the data set WORK._DM.
+NOTE: The data set WORK._DM2 has 335 observations and 14 variables.
+NOTE: Compressing data set WORK._DM2 decreased size by 0.00 percent. 
+      Compressed is 2 pages; un-compressed would require 2 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+3                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      system cpu time     0.00 seconds
+      memory              1746.31k
+      OS Memory           28084.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        233  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     157
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+189        
+190        *deriving Usubjid by concatenate studyid siteid subjid;
+191        data _rand;
+192        length usubjid $30;
+193        set rawdata.rand;
+NOTE: Data file RAWDATA.RAND.DATA is in a format that is native to another host, or the file encoding does not match the session 
+      encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+      performance.
+194        USUBJID=(STUDYID||'-'||SITEID||'-'||SUBJID);
+195        run;
+
+NOTE: There were 335 observations read from the data set RAWDATA.RAND.
+NOTE: The data set WORK._RAND has 335 observations and 11 variables.
+NOTE: Compressing data set WORK._RAND decreased size by 0.00 percent. 
+      Compressed is 2 pages; un-compressed would require 2 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.01 seconds
+      memory              1241.43k
+      OS Memory           27304.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        234  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     160
+      Page Swaps                        0
+      Voluntary Context Switches        14
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+196        
+197        *sorting _rand;
+198        proc sort data=_rand out=_rand2;
+199        by usubjid;
+200        run;
+
+NOTE: There were 335 observations read from the data set WORK._RAND.
+NOTE: The data set WORK._RAND2 has 335 observations and 11 variables.
+NOTE: Compressing data set WORK._RAND2 decreased size by 0.00 percent. 
+      Compressed is 2 pages; un-compressed would require 2 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+4                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1753.40k
+      OS Memory           28084.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        235  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     154
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+201        
+202        *study id without "-";
+203        data comvar_ds;
+204        set rawdata.comvar;
+NOTE: Data file RAWDATA.COMVAR.DATA is in a format that is native to another host, or the file encoding does not match the session 
+      encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+      performance.
+205        study= substr(STUDYID, 1,5);
+206        id= substr(STUDYID, 7, 3);
+207        STUDYIDX = put(study, 5.) || put(id, 3.);
+208        drop studyid;
+209        run;
+
+NOTE: There were 250 observations read from the data set RAWDATA.COMVAR.
+NOTE: The data set WORK.COMVAR_DS has 250 observations and 21 variables.
+NOTE: Compressing data set WORK.COMVAR_DS increased size by 100.00 percent. 
+      Compressed is 2 pages; un-compressed would require 1 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.01 seconds
+      system cpu time     0.00 seconds
+      memory              1199.53k
+      OS Memory           27044.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        236  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     108
+      Page Swaps                        0
+      Voluntary Context Switches        14
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+210        
+211        data comvar_ds2;
+212        set comvar_ds(rename=(STUDYIDX=STUDYID));
+213        run;
+
+NOTE: There were 250 observations read from the data set WORK.COMVAR_DS.
+NOTE: The data set WORK.COMVAR_DS2 has 250 observations and 21 variables.
+NOTE: Compressing data set WORK.COMVAR_DS2 increased size by 100.00 percent. 
+      Compressed is 2 pages; un-compressed would require 1 pages.
+5                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1074.46k
+      OS Memory           27304.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        237  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     120
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+214        
+215        
+216        *sorting comvar_ds2;
+217        proc sort data=comvar_ds out=comvar_ds2;
+218        by usubjid;
+219        run;
+
+NOTE: There were 250 observations read from the data set WORK.COMVAR_DS.
+NOTE: The data set WORK.COMVAR_DS2 has 250 observations and 21 variables.
+NOTE: Compressing data set WORK.COMVAR_DS2 increased size by 100.00 percent. 
+      Compressed is 2 pages; un-compressed would require 1 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1193.68k
+      OS Memory           27564.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        238  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     141
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+220        
+221        *joining _dm2 and comvar_ds2 horizontally;
+222        data dm_co;
+223        merge _dm2 comvar_ds2;
+224        by USUBJID;
+225        run;
+
+NOTE: There were 335 observations read from the data set WORK._DM2.
+NOTE: There were 250 observations read from the data set WORK.COMVAR_DS2.
+NOTE: The data set WORK.DM_CO has 335 observations and 34 variables.
+NOTE: Compressing data set WORK.DM_CO decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: DATA statement used (Total process time):
+6                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1721.43k
+      OS Memory           27564.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        239  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     160
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+226        
+227        *joining dm_co and _rand2 vertically;
+228        data dm_ra_co;
+229        set dm_co _rand2;
+230        run;
+
+NOTE: There were 335 observations read from the data set WORK.DM_CO.
+NOTE: There were 335 observations read from the data set WORK._RAND2.
+NOTE: The data set WORK.DM_RA_CO has 670 observations and 35 variables.
+NOTE: Compressing data set WORK.DM_RA_CO decreased size by 40.00 percent. 
+      Compressed is 3 pages; un-compressed would require 5 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.01 seconds
+      system cpu time     0.00 seconds
+      memory              1794.25k
+      OS Memory           27564.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        240  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     140
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           776
+      
+
+231        
+232        *filter to remove missing values as dsdecod is a required variable;
+233        data dm_ra_co1;
+234        set dm_ra_co;
+235        where dsdecod ne " ";
+236        run;
+
+NOTE: There were 670 observations read from the data set WORK.DM_RA_CO.
+      WHERE dsdecod not = ' ';
+NOTE: The data set WORK.DM_RA_CO1 has 670 observations and 35 variables.
+NOTE: Compressing data set WORK.DM_RA_CO1 decreased size by 40.00 percent. 
+      Compressed is 3 pages; un-compressed would require 5 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+7                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1416.21k
+      OS Memory           27432.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        241  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     131
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           776
+      
+
+237        
+238        *sorting dm_ra_co1;
+239        proc sort data=dm_ra_co1 out=dm_ra_co2;
+240        by usubjid;
+241        run;
+
+NOTE: There were 670 observations read from the data set WORK.DM_RA_CO1.
+NOTE: The data set WORK.DM_RA_CO2 has 670 observations and 35 variables.
+NOTE: Compressing data set WORK.DM_RA_CO2 decreased size by 40.00 percent. 
+      Compressed is 3 pages; un-compressed would require 5 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.01 seconds
+      memory              2431.43k
+      OS Memory           28728.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        242  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     261
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           784
+      
+
+242        
+243        *deriving usubjid in ds domain;;
+244        data _ds;
+245        length USUBJID $30;
+246        set rawdata.ds;
+NOTE: Data file RAWDATA.DS.DATA is in a format that is native to another host, or the file encoding does not match the session 
+      encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+      performance.
+247        USUBJID=(STUDYID||'-'||SITEID||'-'||SUBJID);
+248        run;
+
+NOTE: There were 144 observations read from the data set RAWDATA.DS.
+NOTE: The data set WORK._DS has 144 observations and 7 variables.
+NOTE: Compressing data set WORK._DS increased size by 100.00 percent. 
+      Compressed is 2 pages; un-compressed would require 1 pages.
+NOTE: DATA statement used (Total process time):
+8                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1148.40k
+      OS Memory           27044.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        243  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     112
+      Page Swaps                        0
+      Voluntary Context Switches        14
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+249        
+250        *sorting _ds;
+251        proc sort data=_ds out=_ds1;
+252        by usubjid;
+253        run;
+
+NOTE: There were 144 observations read from the data set WORK._DS.
+NOTE: The data set WORK._DS1 has 144 observations and 7 variables.
+NOTE: Compressing data set WORK._DS1 increased size by 100.00 percent. 
+      Compressed is 2 pages; un-compressed would require 1 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1180.18k
+      OS Memory           27564.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        244  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     148
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+254        
+255        
+256        data ds1;
+257        set _ds1 dm_ra_co2;
+258        if USUBJID ne " " then DOMAIN="DS";
+259        ****generating numeric value of _RFSTDTC
+260        DSSTDTC as  DSSTDTN DSSTDTN respectively;
+261        DSSTDTN = input(DSSTDTC,yymmdd10.);
+262        RFSTDTN = input(_RFSTDTC,yymmdd10.);
+263        format DSSTDTN RFSTDTN yymmdd10.;
+264        dsterm= compress(dsterm, "#");
+265        run;
+
+NOTE: There were 144 observations read from the data set WORK._DS1.
+NOTE: There were 670 observations read from the data set WORK.DM_RA_CO2.
+9                                                          The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+NOTE: The data set WORK.DS1 has 814 observations and 38 variables.
+NOTE: Compressing data set WORK.DS1 decreased size by 50.00 percent. 
+      Compressed is 3 pages; un-compressed would require 6 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1934.78k
+      OS Memory           27692.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        245  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     177
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           776
+      
+
+266        
+267        
+268        *standardizing dsdecod and dscat as per cdisc  controlled terminology;
+269        data ds2;
+270        set ds1;
+271        if dsdecod= "SUBJECT WITHDREW CONSENT" then dsdecod="WITHDRAWAL OF CONSENT";
+272        if dsdecod= "INVESTIGATOR JUDGMENT" then dsdecod="PHYSICIAN DECISION";
+273        if dsdecod= "SUBJECT WITHDREW CONSENT: TIME CONSTRAINTS" then dsdecod="WITHDRAWAL OF CONSENT";
+274        if dsdecod= "SUBJECT LOST TO FOLLOW-UP" then dsdecod="LOST TO FOLLOW-UP";
+275        if dsdecod= "SUBJECT DID NOT MEET INCLUSION/EXCLUSION CRITERIA"
+276        then dsdecod="SCREEN FAILURE";
+277        if dsdecod= "SUBJECT RELOCATED" then dsdecod="WITHDRAWAL OF CONSENT";
+278        if dsdecod= "INCARCERATION" then dsdecod="LOST TO FOLLOW-UP";
+279        if dsdecod= "MAJOR PROTOCOL VIOLATION" then dsdecod="PROTOCOL VIOLATION";
+280        if dsdecod = "INFORMED CONSENT OBTAINED"  then DSCAT = "PROTOCOL MILESTONE";
+281        else if dsdecod = "RANDOMIZED" then DSCAT = "PROTOCOL MILESTONE";
+282        else DSCAT = "DISPOSITION EVENT";
+283        if DSCAT = "DISPOSITION EVENT" then DSSCAT="STUDY PARTICIPATION";
+284        ****DSTERM must not be missing hence mapped with dsdecod;
+285        if DSTERM = " " then DSTERM=DSDECOD;
+286        ***calculate DSSTDY;
+287        ***sum function when substracting missing vslue from number where the missing value will be treated  as zero;
+288        *If DSSTDTN ge RFSTDTN THEN DSSTDY= sum(DSSTDTN,-RFSTDTN)+1;
+289        *ELSE DSSTDY=sum(DSSTDTN,-RFSTDTN);
+290                     ***calculate DSSTDY;
+291        if RFSTDTN ne .  then DSSTDY=DSSTDTN-RFSTDTN;
+292        else if DSSTDTN ge RFSTDTN and RFSTDTN ne .  THEN DSSTDY= (DSSTDTN-RFSTDTN)+1;
+293        run;
+
+NOTE: There were 814 observations read from the data set WORK.DS1.
+NOTE: The data set WORK.DS2 has 814 observations and 41 variables.
+NOTE: Compressing data set WORK.DS2 decreased size by 50.00 percent. 
+      Compressed is 3 pages; un-compressed would require 6 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1439.50k
+10                                                         The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      OS Memory           27432.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        246  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     132
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           776
+      
+
+294        
+295        
+296        data ds3;
+297        set ds2;
+298           *keeping only the variables in the data that belongs to the DS domain;
+299        Keep STUDYID DOMAIN USUBJID DSTERM DSDECOD DSCAT DSSTDTC DSSCAT DSSTDY;
+300        run;
+
+NOTE: There were 814 observations read from the data set WORK.DS2.
+NOTE: The data set WORK.DS3 has 814 observations and 9 variables.
+NOTE: Compressing data set WORK.DS3 decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.01 seconds
+      system cpu time     0.00 seconds
+      memory              1248.40k
+      OS Memory           27432.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        247  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     136
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+301        
+302        ***sorting the data to create uniqueness as per RSD;
+303        proc sort data=ds3 out=ds4;
+304        by USUBJID DSSTDTC DSDECOD;
+305        run;
+
+NOTE: There were 814 observations read from the data set WORK.DS3.
+NOTE: The data set WORK.DS4 has 814 observations and 9 variables.
+NOTE: Compressing data set WORK.DS4 decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              2260.50k
+      OS Memory           28600.00k
+      Timestamp           02/12/2024 12:49:50 PM
+11                                                         The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      Step Count                        248  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     210
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           528
+      
+
+306        
+307        *derving DSSEQ in the by group;
+308        data ds;
+309        set ds4;
+310        by USUBJID DSSTDTC DSDECOD;
+311        if first.usubjid then DSSEQ=.;
+312        DSSEQ+1;
+313        label STUDYID="Study Identifier" DOMAIN="Domain Abbreviation" USUBJID ="Unique Subject Identifier"
+314        DSTERM="Reported Term for the Disposition Event" DSSEQ="Sequence Number" DSDECOD="Standardized Disposition Term"
+315        DSCAT="Category for Disposition Event" DSSCAT="Subcategory for disposition event"
+316        DSSTDTC="Start Date/Time of disposition event" DSSTDY="Study Day of Start of Disposition Event";
+317        run;
+
+NOTE: There were 814 observations read from the data set WORK.DS4.
+NOTE: The data set WORK.DS has 814 observations and 10 variables.
+NOTE: Compressing data set WORK.DS decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1146.37k
+      OS Memory           27304.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        249  Switch Count  2
+      Page Faults                       0
+      Page Reclaims                     105
+      Page Swaps                        0
+      Voluntary Context Switches        10
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+318        
+319        data anadata.ds;
+320        set ds;
+321        run;
+
+NOTE: There were 814 observations read from the data set WORK.DS.
+NOTE: The data set ANADATA.DS has 814 observations and 10 variables.
+NOTE: Compressing data set ANADATA.DS decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      user cpu time       0.00 seconds
+      system cpu time     0.00 seconds
+      memory              1058.00k
+12                                                         The SAS System                      Monday, February 12, 2024 01:49:50 PM
+
+      OS Memory           27304.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        250  Switch Count  1
+      Page Faults                       0
+      Page Reclaims                     100
+      Page Swaps                        0
+      Voluntary Context Switches        36
+      Involuntary Context Switches      0
+      Block Input Operations            0
+      Block Output Operations           520
+      
+
+322        
+323        
+324        PROC COMPARE data=DS COMPARE=ANADATA.DS listvar
+325        out=toprint;
+326        *id subjid;
+327        RUN;
+
+NOTE: There were 814 observations read from the data set WORK.DS.
+NOTE: There were 814 observations read from the data set ANADATA.DS.
+NOTE: The data set WORK.TOPRINT has 814 observations and 12 variables.
+NOTE: Compressing data set WORK.TOPRINT decreased size by 33.33 percent. 
+      Compressed is 2 pages; un-compressed would require 3 pages.
+NOTE: PROCEDURE COMPARE used (Total process time):
+      real time           0.01 seconds
+      user cpu time       0.02 seconds
+      system cpu time     0.00 seconds
+      memory              2644.78k
+      OS Memory           27824.00k
+      Timestamp           02/12/2024 12:49:50 PM
+      Step Count                        251  Switch Count  13
+      Page Faults                       0
+      Page Reclaims                     221
+      Page Swaps                        0
+      Voluntary Context Switches        50
+      Involuntary Context Switches      0
+      Block Input Operations            544
+      Block Output Operations           536
+      
+
+328        
+329        run;
+330        ods html;
+NOTE: Writing HTML Body file: sashtml26.htm
+ERROR: Insufficient authorization to access /pbr/biconfig/940/Lev1/SASApp/sashtml26.htm.
+ERROR: No body file. HTML output will not be created.
+331        ods listing;
+332        ods rtf close;
+333        proc printto;
+334        run;
+
