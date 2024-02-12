@@ -37,6 +37,6 @@ dataset and take requisites Variables as per specs.
 |10|DSSTDY| Study Day of Start of Disposition Event |Num |Study day of start of event relative to the sponsor-defined RFSTDTC. Perm|If DSSTDTC1 ge _RFSTDTC THEN DSSTDY=(ds.DSSTDTC1-comvar._RFSTDTC)+1; ELSE DSSTDY=ds.DSSTDTC1-comvar._RFSTDTC|
 
 ## Output
-- [Dataset](https://github.com/theadewole/Disposition_Dataset_Validation/blob/main/ds.sas7bdat)
+- [Dataset](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/ds.sas7bdat)
 - [Program](https://github.com/theadewole/Disposition_Dataset_Validation/blob/main/DS.sas)
 - [Validate](https://github.com/theadewole/Disposition_Dataset_Validation/blob/main/Validate)
