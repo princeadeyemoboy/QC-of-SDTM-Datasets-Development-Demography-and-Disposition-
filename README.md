@@ -41,4 +41,4 @@ dataset and take requisites Variables as per specs.
 - [Program](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/DS.sas)
 - [Validate](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/ds.rtf)
 - [Log](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/ds.log)
-- [initial]()
+- [initial](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/initial.sas)
