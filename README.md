@@ -38,6 +38,6 @@ dataset and take requisites Variables as per specs.
 
 ## Output
 - [Dataset](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/ds.sas7bdat)
-- [Program](https://github.com/theadewole/Disposition_Dataset_Validation/blob/main/DS.sas)
+- [Program](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/DS.sas)
 - [Validate](https://github.com/theadewole/Disposition_Dataset_Validation/blob/main/Validate)
 - [Log](https://github.com/princeadeyemoboy/QC-of-SDTM-Datasets-Development-Demography-and-Disposition-/blob/main/ds.log)
